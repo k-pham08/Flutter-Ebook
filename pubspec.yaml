@@ -37,6 +37,7 @@ dependencies:
   xml2json: ^5.3.1
   iridium_reader_widget:
     path: ./packages/iridium/reader_widget
+  translator: ^0.1.7
 
 
 dev_dependencies:

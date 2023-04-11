@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_ebook_app/components/loading_widget.dart';
+import 'package:flutter_ebook_app/util/functions.dart';
 
 class DescriptionTextWidget extends StatefulWidget {
   final String text;
@@ -10,8 +12,8 @@ class DescriptionTextWidget extends StatefulWidget {
 }
 
 class _DescriptionTextWidgetState extends State<DescriptionTextWidget> {
-  late String firstHalf;
-  late String secondHalf;
+  late String firstHalf = '';
+  late String secondHalf = '';
 
   bool flag = true;
 
@@ -19,21 +21,27 @@ class _DescriptionTextWidgetState extends State<DescriptionTextWidget> {
   void initState() {
     super.initState();
 
-    if (widget.text.length > 300) {
-      firstHalf = widget.text.substring(0, 300);
-      secondHalf = widget.text.substring(300, widget.text.length);
-    } else {
-      firstHalf = widget.text;
-      secondHalf = '';
-    }
+    // if (widget.text.length > 300) {
+    //   translate(widget.text.substring(0, 300))
+    //       .then((value) => firstHalf = value);
+    //   translate(widget.text.substring(300, widget.text.length))
+    //       .then((value) => secondHalf = value);
+    // } else {
+    //   firstHalf = widget.text;
+    //   secondHalf = '';
+    // }
+    Functions.translate(widget.text).then((value) => firstHalf = value);
   }
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      child: secondHalf.isEmpty
-          ? Text(
-              '${flag ? (firstHalf) : (firstHalf + secondHalf)}'
+      child: firstHalf.isEmpty
+          ? LoadingWidget(
+              isImage: false,
+            )
+          : Text(
+              '${firstHalf}'
                   .replaceAll(r'\n', '\n')
                   .replaceAll(r'\r', '')
                   .replaceAll(r"\'", "'"),
@@ -41,36 +49,6 @@ class _DescriptionTextWidgetState extends State<DescriptionTextWidget> {
                 fontSize: 16.0,
                 color: Theme.of(context).textTheme.caption!.color,
               ),
-            )
-          : Column(
-              children: <Widget>[
-                Text(
-                  '${flag ? (firstHalf + '...') : (firstHalf + secondHalf)}'
-                      .replaceAll(r'\n', '\n\n')
-                      .replaceAll(r'\r', '')
-                      .replaceAll(r"\'", "'"),
-                  style: TextStyle(
-                    fontSize: 16.0,
-                    color: Theme.of(context).textTheme.caption!.color,
-                  ),
-                ),
-                InkWell(
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: <Widget>[
-                      Text(
-                        flag ? 'show more' : 'show less',
-                        style: TextStyle(color: Colors.blue),
-                      ),
-                    ],
-                  ),
-                  onTap: () {
-                    setState(() {
-                      flag = !flag;
-                    });
-                  },
-                ),
-              ],
             ),
     );
   }

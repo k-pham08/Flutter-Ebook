@@ -5,6 +5,7 @@ import 'package:flutter_ebook_app/components/book_card.dart';
 import 'package:flutter_ebook_app/components/book_list_item.dart';
 import 'package:flutter_ebook_app/models/category.dart';
 import 'package:flutter_ebook_app/util/consts.dart';
+import 'package:flutter_ebook_app/util/functions.dart';
 import 'package:flutter_ebook_app/util/router.dart';
 import 'package:flutter_ebook_app/view_models/home_provider.dart';
 import 'package:flutter_ebook_app/views/genre/genre.dart';
@@ -28,7 +29,8 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
   Widget build(BuildContext context) {
     super.build(context);
     return Consumer<HomeProvider>(
-      builder: (BuildContext context, HomeProvider homeProvider, Widget? child) {
+      builder:
+          (BuildContext context, HomeProvider homeProvider, Widget? child) {
         return Scaffold(
           appBar: AppBar(
             centerTitle: true,
@@ -60,11 +62,11 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
         children: <Widget>[
           _buildFeaturedSection(homeProvider),
           SizedBox(height: 20.0),
-          _buildSectionTitle('Categories'),
+          _buildSectionTitle('Chủ đề'),
           SizedBox(height: 10.0),
           _buildGenreSection(homeProvider),
           SizedBox(height: 20.0),
-          _buildSectionTitle('Recently Added'),
+          _buildSectionTitle('Mới thêm'),
           SizedBox(height: 20.0),
           _buildNewSection(homeProvider),
         ],

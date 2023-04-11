@@ -21,24 +21,24 @@ class _ProfileState extends State<Profile> {
     items = [
       {
         'icon': Feather.heart,
-        'title': 'Favorites',
+        'title': 'Yêu thích',
         'function': () => _pushPage(Favorites()),
       },
       {
         'icon': Feather.download,
-        'title': 'Downloads',
+        'title': 'Tải xuống',
         'function': () => _pushPage(Downloads()),
       },
       {
         'icon': Feather.moon,
-        'title': 'Dark Mode',
+        'title': 'Chế độ tối',
         'function': () => _pushPage(Downloads()),
       },
-      {
-        'icon': Feather.info,
-        'title': 'About',
-        'function': () => showAbout(),
-      },
+      // {
+      //   'icon': Feather.info,
+      //   'title': 'Về chúng tôi',
+      //   'function': () => showAbout(),
+      // },
       // {
       //   'icon': Feather.file_text,
       //   'title': 'Licenses',
@@ -51,7 +51,7 @@ class _ProfileState extends State<Profile> {
   Widget build(BuildContext context) {
     // Remove Dark Switch if Device has Dark mode enabled
     if (MediaQuery.of(context).platformBrightness == Brightness.dark) {
-      items.removeWhere((item) => item['title'] == 'Dark Mode');
+      items.removeWhere((item) => item['title'] == 'Chế độ tối');
     }
 
     return Scaffold(
@@ -67,7 +67,7 @@ class _ProfileState extends State<Profile> {
         physics: NeverScrollableScrollPhysics(),
         itemCount: items.length,
         itemBuilder: (BuildContext context, int index) {
-          if (items[index]['title'] == 'Dark Mode') {
+          if (items[index]['title'] == 'Chế độ tối') {
             return _buildThemeSwitch(items[index]);
           }
 

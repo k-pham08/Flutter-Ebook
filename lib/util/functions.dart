@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:translator/translator.dart';
 
 class Functions {
   static isDark(BuildContext context) {
@@ -12,5 +13,11 @@ class Functions {
     } else {
       return false;
     }
+  }
+
+  static Future<String> translate(String input) async {
+    final translator = GoogleTranslator();
+    var translation = await translator.translate(input, to: 'vi');
+    return translation.text;
   }
 }

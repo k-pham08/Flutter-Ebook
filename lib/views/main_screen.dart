@@ -34,15 +34,15 @@ class _MainScreenState extends State<MainScreen> {
           items: <BottomNavigationBarItem>[
             BottomNavigationBarItem(
               icon: Icon(Feather.home),
-              label: 'Home',
+              label: 'Trang chủ',
             ),
             BottomNavigationBarItem(
               icon: Icon(Feather.compass),
-              label: 'Explore',
+              label: 'Khám phá',
             ),
             BottomNavigationBarItem(
               icon: Icon(Feather.settings),
-              label: 'Settings',
+              label: 'Cài đặt',
             ),
           ],
           onTap: navigationTapped,
