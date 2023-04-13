@@ -36,7 +36,7 @@ class _FavoritesState extends State<Favorites> {
           appBar: AppBar(
             centerTitle: true,
             title: Text(
-              'Favorites',
+              'Yêu thích',
             ),
           ),
           body: favoritesProvider.favorites.isEmpty
@@ -79,7 +79,8 @@ class _FavoritesState extends State<Favorites> {
         childAspectRatio: 200 / 340,
       ),
       itemBuilder: (BuildContext context, int index) {
-        Entry entry = Entry.fromJson(favoritesProvider.favorites[index]['item']);
+        Entry entry =
+            Entry.fromJson(favoritesProvider.favorites[index]['item']);
         return Padding(
           padding: EdgeInsets.symmetric(horizontal: 5.0),
           child: BookItem(

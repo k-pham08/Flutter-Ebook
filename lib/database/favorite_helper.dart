@@ -4,7 +4,6 @@ import 'package:objectdb/objectdb.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:objectdb/src/objectdb_storage_filesystem.dart';
 
-
 class FavoriteDB {
   getPath() async {
     Directory documentDirectory = await getApplicationDocumentsDirectory();

@@ -83,14 +83,14 @@ class _DetailsState extends State<Details> {
               SizedBox(height: 10.0),
               _buildImageTitleSection(detailsProvider),
               SizedBox(height: 30.0),
-              _buildSectionTitle('Book Description'),
+              _buildSectionTitle('Mô tả'),
               _buildDivider(),
               SizedBox(height: 10.0),
               DescriptionTextWidget(
                 text: '${widget.entry.summary!.t}',
               ),
               SizedBox(height: 30.0),
-              _buildSectionTitle('More from Author'),
+              _buildSectionTitle('Cùng tác giả'),
               _buildDivider(),
               SizedBox(height: 10.0),
               _buildMoreBook(detailsProvider),
@@ -233,23 +233,25 @@ class _DetailsState extends State<Details> {
 
   _buildDownloadReadButton(DetailsProvider provider, BuildContext context) {
     if (provider.downloaded) {
-      return TextButton(
+      return ElevatedButton(
         onPressed: () => openBook(provider),
         child: Text(
-          'Read Book',
-          style: TextStyle(fontSize: 13, color: Colors.black),
+          'Đọc sách',
+          style: TextStyle(
+              fontSize: 13, color: Colors.black, fontWeight: FontWeight.bold),
         ),
       );
     } else {
-      return TextButton(
+      return ElevatedButton(
         onPressed: () => provider.downloadFile(
           context,
           widget.entry.link![3].href!,
           widget.entry.title!.t!.replaceAll(' ', '_').replaceAll(r"\'", "'"),
         ),
         child: Text(
-          'Download',
-          style: TextStyle(fontSize: 13, color: Colors.black),
+          'Tải về',
+          style: TextStyle(
+              fontSize: 15, color: Colors.black, fontWeight: FontWeight.bold),
         ),
       );
     }
@@ -290,7 +292,7 @@ class _DetailsState extends State<Details> {
                       '${cat.label}',
                       style: TextStyle(
                         color: Theme.of(context).colorScheme.secondary,
-                        fontSize: cat.label!.length > 18 ? 6.0 : 10.0,
+                        fontSize: 10.0,
                         fontWeight: FontWeight.bold,
                       ),
                     ),

@@ -9,6 +9,10 @@ import 'package:flutter_ebook_app/util/api.dart';
 import 'package:flutter_ebook_app/util/consts.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:translator/translator.dart';
+import 'package:objectdb/objectdb.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:objectdb/src/objectdb_storage_filesystem.dart';
 
 class DetailsProvider extends ChangeNotifier {
   CategoryFeed related = CategoryFeed();
@@ -25,8 +29,17 @@ class DetailsProvider extends ChangeNotifier {
     setLoading(true);
     checkFav();
     checkDownload();
+    final translator = GoogleTranslator();
     try {
       CategoryFeed feed = await api.getCategory(url);
+      for (var element in feed.feed!.entry!) {
+        try {
+          var des = await translator.translate(element.summary!.t!, to: 'vi');
+          element.summary!.t = des.text;
+        } catch (e) {
+          element.summary!.t = '';
+        }
+      }
       setRelated(feed);
       setLoading(false);
     } catch (e) {
@@ -36,8 +49,8 @@ class DetailsProvider extends ChangeNotifier {
 
   // check if book is favorited
   checkFav() async {
-    List c = await favDB.check({'id': entry!.id!.t.toString()});
-    if (c.isNotEmpty) {
+    List list = await favDB.check({'id': entry!.id!.t.toString()});
+    if (list.isNotEmpty) {
       setFaved(true);
     } else {
       setFaved(false);

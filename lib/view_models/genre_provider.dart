@@ -5,6 +5,7 @@ import 'package:flutter_ebook_app/util/api.dart';
 import 'package:flutter_ebook_app/util/enum/api_request_status.dart';
 import 'package:flutter_ebook_app/util/functions.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:translator/translator.dart';
 
 import '../models/category.dart';
 
@@ -38,9 +39,27 @@ class GenreProvider extends ChangeNotifier {
   getFeed(String url) async {
     setApiRequestStatus(APIRequestStatus.loading);
     print(url);
+    final translator = GoogleTranslator();
     try {
       CategoryFeed feed = await api.getCategory(url);
       items = feed.feed!.entry!;
+      for (var element in items) {
+        try {
+          var translation =
+              await translator.translate(element.summary!.t!, to: 'vi');
+          element.summary!.t = translation.text;
+          for (var ele in element.category!) {
+            try {
+              var category = await translator.translate(ele.label!, to: 'vi');
+              ele.label = category.text;
+            } catch (e) {
+              ele.label = 'Chưa xác định';
+            }
+          }
+        } catch (e) {
+          element.summary!.t = '';
+        }
+      }
       setApiRequestStatus(APIRequestStatus.loaded);
       listener(url);
     } catch (e) {

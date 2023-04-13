@@ -59,7 +59,7 @@ class _DownloadAlertState extends State<DownloadAlert> {
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
               Text(
-                'Downloading...',
+                'Đang tải...',
                 style: TextStyle(
                   fontSize: 15.0,
                   fontWeight: FontWeight.bold,
@@ -77,8 +77,8 @@ class _DownloadAlertState extends State<DownloadAlert> {
                 ),
                 child: LinearProgressIndicator(
                   value: double.parse(progress) / 100.0,
-                  valueColor:
-                      AlwaysStoppedAnimation(Theme.of(context).colorScheme.secondary),
+                  valueColor: AlwaysStoppedAnimation(
+                      Theme.of(context).colorScheme.secondary),
                   backgroundColor:
                       Theme.of(context).colorScheme.secondary.withOpacity(0.3),
                 ),

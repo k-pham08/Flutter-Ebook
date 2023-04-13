@@ -58,7 +58,7 @@ class _ProfileState extends State<Profile> {
       appBar: AppBar(
         centerTitle: true,
         title: Text(
-          'Settings',
+          'Cài đặt',
         ),
       ),
       body: ListView.separated(
@@ -137,7 +137,7 @@ class _ProfileState extends State<Profile> {
                 color: Theme.of(context).colorScheme.secondary,
               )),
               onPressed: () => Navigator.pop(context),
-              child: Text('Close'),
+              child: Text('Đóng'),
             ),
           ],
         );

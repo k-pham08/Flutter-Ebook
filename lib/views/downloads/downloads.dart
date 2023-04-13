@@ -40,7 +40,7 @@ class _DownloadsState extends State<Downloads> {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: Text('Downloads'),
+        title: Text('Tải xuống'),
       ),
       body: dls.isEmpty ? _buildEmptyListView() : _buildBodyList(),
     );
