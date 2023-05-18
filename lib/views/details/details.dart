@@ -55,7 +55,7 @@ class _DetailsState extends State<Details> {
           appBar: AppBar(
             actions: <Widget>[
               IconButton(
-                onPressed: () async {
+                onPressed: () {
                   if (detailsProvider.faved) {
                     detailsProvider.removeFav();
                   } else {

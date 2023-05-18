@@ -45,13 +45,18 @@ class GenreProvider extends ChangeNotifier {
       items = feed.feed!.entry!;
       for (var element in items) {
         try {
-          var translation =
-              await translator.translate(element.summary!.t!, to: 'vi');
-          element.summary!.t = translation.text;
+          var first_part = element.summary!.t!.substring(0, 100);
+          var rest_part = element.summary!.t!
+              .substring(100, element.summary!.t!.toString().length);
+          var translation = await translator.translate(first_part, to: 'vi');
+          translator.translate(rest_part, to: 'vi').then(
+              (value) => element.summary!.t = translation.text + value.text);
+
+          ;
           for (var ele in element.category!) {
             try {
-              var category = await translator.translate(ele.label!, to: 'vi');
-              ele.label = category.text;
+              var category = translator.translate(ele.label!, to: 'vi');
+              category.then((value) => ele.label = value.text);
             } catch (e) {
               ele.label = 'Chưa xác định';
             }

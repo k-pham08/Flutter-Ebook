@@ -1,27 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
-import 'package:flutter_ebook_app/components/book.dart';
+import 'package:flutter_ebook_app/components/book_history_item.dart';
 import 'package:flutter_ebook_app/models/category.dart';
-import 'package:flutter_ebook_app/view_models/favorites_provider.dart';
+import 'package:flutter_ebook_app/view_models/history_provider.dart';
 import 'package:provider/provider.dart';
 
-class Favorites extends StatefulWidget {
+class History extends StatefulWidget {
   @override
-  _FavoritesState createState() => _FavoritesState();
+  _HistoryState createState() => _HistoryState();
 }
 
-class _FavoritesState extends State<Favorites> {
+class _HistoryState extends State<History> {
   @override
   void initState() {
     super.initState();
-    getFavorites();
+    getHistory();
   }
 
-  getFavorites() {
+  getHistory() {
     SchedulerBinding.instance.addPostFrameCallback(
       (_) {
         if (mounted) {
-          Provider.of<FavoritesProvider>(context, listen: false).listen();
+          Provider.of<HistoryProvider>(context, listen: false).listen();
         }
       },
     );
@@ -29,19 +29,19 @@ class _FavoritesState extends State<Favorites> {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<FavoritesProvider>(
-      builder: (BuildContext context, FavoritesProvider favoritesProvider,
+    return Consumer<HistoryProvider>(
+      builder: (BuildContext context, HistoryProvider historyProvider,
           Widget? child) {
         return Scaffold(
           appBar: AppBar(
             centerTitle: true,
             title: Text(
-              'Yêu thích',
+              'Đã xem',
             ),
           ),
-          body: favoritesProvider.favorites.isEmpty
+          body: historyProvider.history.isEmpty
               ? _buildEmptyListView()
-              : _buildGridView(favoritesProvider),
+              : _buildListView(historyProvider),
         );
       },
     );
@@ -69,24 +69,20 @@ class _FavoritesState extends State<Favorites> {
     );
   }
 
-  _buildGridView(FavoritesProvider favoritesProvider) {
-    return GridView.builder(
+  _buildListView(HistoryProvider historyProvider) {
+    return ListView.builder(
+      reverse: true,
       padding: EdgeInsets.fromLTRB(10.0, 20.0, 10.0, 0.0),
       shrinkWrap: true,
-      itemCount: favoritesProvider.favorites.length,
-      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 3,
-        childAspectRatio: 200 / 340,
-      ),
+      itemCount: historyProvider.history.length,
       itemBuilder: (BuildContext context, int index) {
-        Entry entry =
-            Entry.fromJson(favoritesProvider.favorites[index]['item']);
+        Entry entry = Entry.fromJson(historyProvider.history[index]['item']);
+        String time = historyProvider.history[index]['created_at'];
         return Padding(
           padding: EdgeInsets.symmetric(horizontal: 5.0),
-          child: BookItem(
-            img: entry.link![1].href!,
-            title: entry.title!.t!,
+          child: BookHistoryItem(
             entry: entry,
+            time: time,
           ),
         );
       },

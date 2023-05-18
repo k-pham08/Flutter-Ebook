@@ -22,8 +22,9 @@ class HomeProvider with ChangeNotifier {
       CategoryFeed popular = await api.getCategory(Api.popular);
       for (var element in popular.feed!.link!) {
         try {
-          var des = await translator.translate(element.title!, to: 'vi');
-          element.title = des.text;
+          translator
+              .translate(element.title!, to: 'vi')
+              .then((value) => element.title = value.text);
         } catch (e) {
           element.title = 'Chưa xác định';
         }
@@ -31,8 +32,8 @@ class HomeProvider with ChangeNotifier {
       for (var entry in popular.feed!.entry!) {
         for (var element in entry.category!) {
           try {
-            var category = await translator.translate(element.label!, to: 'vi');
-            element.label = category.text;
+            var category = translator.translate(element.label!, to: 'vi');
+            category.then((value) => element.label = value.text);
           } catch (e) {
             element.label = 'Chưa xác định';
           }
@@ -40,15 +41,21 @@ class HomeProvider with ChangeNotifier {
       }
       setTop(popular);
       CategoryFeed newReleases = await api.getCategory(Api.recent);
-      for (var element in newReleases.feed!.entry!) {
+      for (int index = 0; index < newReleases.feed!.entry!.length; index++) {
+        var element = newReleases.feed!.entry![index];
         try {
-          var translation =
-              await translator.translate(element.summary!.t!, to: 'vi');
-          element.summary!.t = translation.text;
+          var first_part = element.summary!.t!.substring(0, 100);
+          var rest_part = element.summary!.t!
+              .substring(100, element.summary!.t!.toString().length);
+          var translation = await translator.translate(first_part, to: 'vi');
+          translator.translate(rest_part, to: 'vi').then(
+              (value) => element.summary!.t = translation.text + value.text);
+
+          ;
           for (var ele in element.category!) {
             try {
-              var category = await translator.translate(ele.label!, to: 'vi');
-              ele.label = category.text;
+              var category = translator.translate(ele.label!, to: 'vi');
+              category.then((value) => ele.label = value.text);
             } catch (e) {
               ele.label = 'Chưa xác định';
             }

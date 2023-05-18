@@ -11,7 +11,6 @@ class FavoriteDB {
     return path;
   }
 
-  //Insertion
   add(Map item) async {
     final db = ObjectDB(FileSystemStorage(await getPath()));
     db.insert(item);

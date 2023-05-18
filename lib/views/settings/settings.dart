@@ -4,6 +4,7 @@ import 'package:flutter_ebook_app/util/router.dart';
 import 'package:flutter_ebook_app/view_models/app_provider.dart';
 import 'package:flutter_ebook_app/views/downloads/downloads.dart';
 import 'package:flutter_ebook_app/views/favorites/favorites.dart';
+import 'package:flutter_ebook_app/views/history/history.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:provider/provider.dart';
 
@@ -34,6 +35,11 @@ class _ProfileState extends State<Profile> {
         'title': 'Chế độ tối',
         'function': () => _pushPage(Downloads()),
       },
+      {
+        'icon': FontAwesome.history,
+        'title': 'Đã xem',
+        'function': () => _pushPage(History()),
+      }
       // {
       //   'icon': Feather.info,
       //   'title': 'Về chúng tôi',

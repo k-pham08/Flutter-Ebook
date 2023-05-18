@@ -4,15 +4,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_ebook_app/components/download_alert.dart';
 import 'package:flutter_ebook_app/database/download_helper.dart';
 import 'package:flutter_ebook_app/database/favorite_helper.dart';
+import 'package:flutter_ebook_app/database/history_helper.dart';
 import 'package:flutter_ebook_app/models/category.dart';
 import 'package:flutter_ebook_app/util/api.dart';
 import 'package:flutter_ebook_app/util/consts.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:translator/translator.dart';
-import 'package:objectdb/objectdb.dart';
-import 'package:path_provider/path_provider.dart';
-import 'package:objectdb/src/objectdb_storage_filesystem.dart';
 
 class DetailsProvider extends ChangeNotifier {
   CategoryFeed related = CategoryFeed();
@@ -20,6 +18,7 @@ class DetailsProvider extends ChangeNotifier {
   Entry? entry;
   var favDB = FavoriteDB();
   var dlDB = DownloadsDB();
+  var hisDB = HistoryDB();
 
   bool faved = false;
   bool downloaded = false;
@@ -29,6 +28,7 @@ class DetailsProvider extends ChangeNotifier {
     setLoading(true);
     checkFav();
     checkDownload();
+    checkHis();
     final translator = GoogleTranslator();
     try {
       CategoryFeed feed = await api.getCategory(url);
@@ -47,9 +47,27 @@ class DetailsProvider extends ChangeNotifier {
     }
   }
 
-  // check if book is favorited
+  addHis() async {
+    DateTime now = new DateTime.now();
+    DateTime date = new DateTime(
+        now.year, now.month, now.day, now.hour, now.minute, now.second);
+    await hisDB.add({
+      'id': entry!.id!.t.toString(),
+      'item': entry!.toJson(),
+      'created_at': date.toString()
+    });
+  }
+
+  checkHis() async {
+    List list = await hisDB.check({'id': entry!.id!.t.toString()});
+    if (list.isEmpty) {
+      addHis();
+    }
+  }
+
   checkFav() async {
     List list = await favDB.check({'id': entry!.id!.t.toString()});
+    print(list);
     if (list.isNotEmpty) {
       setFaved(true);
     } else {
@@ -63,13 +81,10 @@ class DetailsProvider extends ChangeNotifier {
   }
 
   removeFav() async {
-    favDB.remove({'id': entry!.id!.t.toString()}).then((v) {
-      print(v);
-      checkFav();
-    });
+    await favDB.remove({'id': entry!.id!.t.toString()});
+    checkFav();
   }
 
-  // check if book has been downloaded before
   checkDownload() async {
     List downloads = await dlDB.check({'id': entry!.id!.t.toString()});
     if (downloads.isNotEmpty) {

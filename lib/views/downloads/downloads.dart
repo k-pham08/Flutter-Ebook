@@ -149,7 +149,7 @@ class _DownloadsState extends State<Downloads> {
             width: 300.0,
           ),
           Text(
-            'Nothing is here',
+            'Trống',
             style: TextStyle(
               fontSize: 24.0,
               fontWeight: FontWeight.bold,
