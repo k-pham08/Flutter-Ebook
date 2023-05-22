@@ -35,7 +35,7 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
           appBar: AppBar(
             centerTitle: true,
             title: Text(
-              '${Constants.appName}',
+              'Trang chủ',
               style: TextStyle(
                 fontSize: 20.0,
               ),

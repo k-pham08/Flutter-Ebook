@@ -42,7 +42,7 @@ class MyErrorWidget extends StatelessWidget {
                 backgroundColor: Theme.of(context).colorScheme.secondary,
               ),
               child: Text(
-                'TRY AGAIN',
+                'Thử lại',
                 style: TextStyle(
                   color: Colors.white,
                   fontSize: 15.0,
@@ -58,10 +58,10 @@ class MyErrorWidget extends StatelessWidget {
 
   getErrorText() {
     if (isConnection) {
-      return 'There is a problem with your internet connection. '
-          '\nPlease try again.';
+      return 'Không có kết nối internet'
+          '\nVui lòng thử lại.';
     } else {
-      return 'Could not load this page. \nPlease try again.';
+      return 'Có lỗi xảy ra. \nVui lòng thử lại.';
     }
   }
 }

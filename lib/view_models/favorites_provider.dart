@@ -6,6 +6,7 @@ import 'package:flutter_ebook_app/database/favorite_helper.dart';
 class FavoritesProvider extends ChangeNotifier {
   List favorites = [];
   var db = FavoriteDB();
+  var status = false;
 
   StreamSubscription<List>? _streamSubscription;
 
@@ -30,11 +31,18 @@ class FavoritesProvider extends ChangeNotifier {
 
   Future<Stream<List>> getFavoritesStream() async {
     Stream<List<dynamic>> all = await db.listAllStream();
+    setStatus(true);
+    print(all);
     return all;
   }
 
   void setFavorites(value) {
     favorites = value;
+    notifyListeners();
+  }
+
+  void setStatus(value) {
+    status = value;
     notifyListeners();
   }
 }

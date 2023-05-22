@@ -100,10 +100,10 @@ class GenreProvider extends ChangeNotifier {
   void checkError(e) {
     if (Functions.checkConnectionError(e)) {
       setApiRequestStatus(APIRequestStatus.connectionError);
-      showToast('Connection error');
+      showToast('Lỗi kết nối internet');
     } else {
       setApiRequestStatus(APIRequestStatus.error);
-      showToast('Something went wrong, please try again');
+      showToast('Có lỗi xảy ra vui lòng thử lại');
     }
   }
 
